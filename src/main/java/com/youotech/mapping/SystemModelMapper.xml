@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.SystemModelMapper">
+	<resultMap id="BaseResultMap" type="com.youotech.entity.SystemModel">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="DEL" property="del" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, NAME, DEL
+	</sql>
+	<select id="getList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SDTZ_TB_SYSTEM WHERE DEL = 1
+	</select>
+
+	<insert id="saveObject" parameterType="java.lang.String">
+		INSERT INTO
+		SDTZ_TB_SYSTEM(ID,NAME,DEL)
+		VALUES(TB_SYSTEM_ID.nextval,#{name,jdbcType=VARCHAR},1)
+	</insert>
+	
+	<update id="updObject" parameterType="java.util.Map">
+		UPDATE SDTZ_TB_SYSTEM SET 
+		NAME = #{queryMap.name,jdbcType=VARCHAR}
+		WHERE 1=1 
+		AND ID = #{queryMap.id,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="delObject" parameterType="java.lang.Long">
+		UPDATE SDTZ_TB_SYSTEM SET 
+		DEL = 2
+		WHERE 1=1 
+		AND ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

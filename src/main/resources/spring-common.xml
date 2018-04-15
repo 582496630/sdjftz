@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<context:component-scan base-package="com.youotech">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 读取资源文件 -->
+	<!-- 引入外部properties配置文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+
+	<!-- 阿里巴巴Druid数据库连接池 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClass}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="${jdbc.pool.maxActive}" />
+		<property name="maxIdle" value="${jdbc.pool.maxIdle}" />
+		<property name="minIdle" value="0" />
+		<property name="defaultAutoCommit" value="false" />
+	</bean>
+
+
+
+	<!-- mybatis的SqlSession的工厂: SqlSessionFactoryBean dataSource:引用数据源 MyBatis定义数据源,同意加载配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动匹配Mapper映射文件 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<!-- 自动匹配Mapper映射文件 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:com/youotech/mapping/*Mapper.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.youotech.dao" />
+		<!-- 3.2.2版本新特性，markerInterface可以起到mappers配置的作用，详细情况需要看Marker接口类 -->
+		<property name="markerInterface" value="com.youotech.dao.MyMapper" />
+		<!-- 通用Mapper通过属性注入进行配置，默认不配置时会注册Mapper<T>接口 <property name="properties"> 
+			<value> mappers=tk.mybatis.mapper.common.Mapper </value> </property> -->
+	</bean>
+
+	<!-- mapper扫描器，生成mapper动态代理对象 ，产生的动态代理对象自动在spring的容器中自动注册，bean的id就是类名（首字母小写如“userDao”） -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 指定扫描包的路径，实际就是mapper（dao）接口的路径 -->
+		<property name="basePackage" value="com.youotech.dao" />
+		<!-- 配置sqlSessionFactoryBeanName -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<!-- 4. 事务管理 : DataSourceTransactionManager dataSource:引用上面定义的数据源 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- 5. 使用声明式事务 transaction-manager：引用上面定义的事务管理器 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+</beans>

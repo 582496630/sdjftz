@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.TypesetModelMapper" >
+  <resultMap id="BaseResultMap" type="com.youotech.entity.TypesetModel" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="DEL" property="del" jdbcType="DECIMAL" />
+    <result column="IS_CHILD" property="isChild" jdbcType="DECIMAL" />
+    <result column="DW" property="dw" jdbcType="VARCHAR" />
+    <result column="CLASSIFY" property="classify" jdbcType="DECIMAL" />
+    <result column="NOTIFY_TYPE" property="notifyType" jdbcType="VARCHAR" />
+    <result column="NOTIFY_INV" property="notifyInv" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, IMG_SRC, TYPE, DEL, IS_CHILD, DW, CLASSIFY, NOTIFY_TYPE, NOTIFY_INV
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SDTZ_TB_TYPESET
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SDTZ_TB_TYPESET
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.youotech.entity.TypesetModel" >
+    insert into SDTZ_TB_TYPESET (ID, NAME, IMG_SRC, 
+      TYPE, DEL, IS_CHILD, 
+      DW, CLASSIFY, NOTIFY_TYPE, 
+      NOTIFY_INV)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{imgSrc,jdbcType=VARCHAR}, 
+      #{type,jdbcType=DECIMAL}, #{del,jdbcType=DECIMAL}, #{isChild,jdbcType=DECIMAL}, 
+      #{dw,jdbcType=VARCHAR}, #{classify,jdbcType=DECIMAL}, #{notifyType,jdbcType=VARCHAR}, 
+      #{notifyInv,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.youotech.entity.TypesetModel" >
+    insert into SDTZ_TB_TYPESET
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="imgSrc != null" >
+        IMG_SRC,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="del != null" >
+        DEL,
+      </if>
+      <if test="isChild != null" >
+        IS_CHILD,
+      </if>
+      <if test="dw != null" >
+        DW,
+      </if>
+      <if test="classify != null" >
+        CLASSIFY,
+      </if>
+      <if test="notifyType != null" >
+        NOTIFY_TYPE,
+      </if>
+      <if test="notifyInv != null" >
+        NOTIFY_INV,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc != null" >
+        #{imgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="del != null" >
+        #{del,jdbcType=DECIMAL},
+      </if>
+      <if test="isChild != null" >
+        #{isChild,jdbcType=DECIMAL},
+      </if>
+      <if test="dw != null" >
+        #{dw,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        #{classify,jdbcType=DECIMAL},
+      </if>
+      <if test="notifyType != null" >
+        #{notifyType,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyInv != null" >
+        #{notifyInv,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.youotech.entity.TypesetModel" >
+    update SDTZ_TB_TYPESET
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc != null" >
+        IMG_SRC = #{imgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="del != null" >
+        DEL = #{del,jdbcType=DECIMAL},
+      </if>
+      <if test="isChild != null" >
+        IS_CHILD = #{isChild,jdbcType=DECIMAL},
+      </if>
+      <if test="dw != null" >
+        DW = #{dw,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        CLASSIFY = #{classify,jdbcType=DECIMAL},
+      </if>
+      <if test="notifyType != null" >
+        NOTIFY_TYPE = #{notifyType,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyInv != null" >
+        NOTIFY_INV = #{notifyInv,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.youotech.entity.TypesetModel" >
+    update SDTZ_TB_TYPESET
+    set NAME = #{name,jdbcType=VARCHAR},
+      IMG_SRC = #{imgSrc,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      DEL = #{del,jdbcType=DECIMAL},
+      IS_CHILD = #{isChild,jdbcType=DECIMAL},
+      DW = #{dw,jdbcType=VARCHAR},
+      CLASSIFY = #{classify,jdbcType=DECIMAL},
+      NOTIFY_TYPE = #{notifyType,jdbcType=VARCHAR},
+      NOTIFY_INV = #{notifyInv,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="getMenuList" resultMap="BaseResultMap">
+  		SELECT 
+  		 <include refid="Base_Column_List" />
+  		FROM SDTZ_TB_TYPESET WHERE 1=1 
+  		AND DEL = 1 
+  </select>
+  
+  <select id="getList" resultMap="BaseResultMap">
+  		SELECT 
+  		 <include refid="Base_Column_List" />
+  		FROM SDTZ_TB_TYPESET WHERE 1=1 
+  		AND DEL = 1 
+  </select>
+</mapper>

@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.PortModelMapper" >
+  <resultMap id="BaseResultMap" type="com.youotech.entity.PortModel" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DEVICE_ID" property="deviceId" jdbcType="DECIMAL" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="MAC" property="mac" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="IPZY_ID" property="ipzyId" jdbcType="DECIMAL" />
+    <result column="TJ_ID" property="tjId" jdbcType="VARCHAR" />
+    <result column="ITEM_IDS" property="itemIds" jdbcType="VARCHAR" />
+    <result column="DEL" property="del" jdbcType="DECIMAL" />
+    <result column="STAR" property="star" jdbcType="DECIMAL" />
+    <result column="PM" property="pm" jdbcType="VARCHAR" />
+    <result column="SYN_TIME" property="synTime" jdbcType="DATE" />
+    <result column="SNMP_AVAILABLE" property="snmpAvailable" jdbcType="DECIMAL" />
+    <result column="SNMP_ERROR" property="snmpError" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+    <result column="LAST_SYN_DEVICE_SCAN_TIME" property="lastSynDeviceScanTime" jdbcType="DATE" />
+    <result column="SNMP_ERRORS_FROM" property="snmpErrorsFrom" jdbcType="DATE" />
+    <result column="ALARM_TEMPLETE_ID" property="alarmTempleteId" jdbcType="DECIMAL" />
+    <result column="ICMP_AVAILABLE" property="icmpAvailable" jdbcType="DECIMAL" />
+    <result column="ICMP_ITEM_ID" property="icmpItemId" jdbcType="VARCHAR" />
+    <result column="SYSUPTIME_AVAILABLE" property="sysuptimeAvailable" jdbcType="DECIMAL" />
+    <result column="SYSUPTIME_ITEMID" property="sysuptimeItemid" jdbcType="VARCHAR" />
+    <result column="FQ" property="fq" jdbcType="DECIMAL" />
+    <result column="SNMP_AVAILABLESTR" property="snmpAvailablestr" jdbcType="VARCHAR" />
+    <result column="ICMP_AVAILABLESTR" property="icmpAvailablestr" jdbcType="VARCHAR" />
+    <result column="CHECK_TYPE" property="checkType" jdbcType="VARCHAR" />
+    <result column="ICMP_CHANGE_ERROR_TIME" property="icmpChangeErrorTime" jdbcType="DATE" />
+    <result column="ICMP_LAST_CLOCK" property="icmpLastClock" jdbcType="DATE" />
+    <result column="SNMP_LAST_CLOCK" property="snmpLastClock" jdbcType="DATE" />
+    <result column="ITEMID_SYSDESCR" property="itemidSysdescr" jdbcType="VARCHAR" />
+    <result column="IPZY_ID2" property="ipzyId2" jdbcType="DECIMAL" />
+    <result column="SCAN_DETAIL_ID" property="scanDetailId" jdbcType="DECIMAL" />
+    <result column="SCAN_DETAIL_UPDATETIME" property="scanDetailUpdatetime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, DEVICE_ID, IP, MAC, TYPE, IPZY_ID, TJ_ID, ITEM_IDS, DEL, STAR, PM, SYN_TIME, 
+    SNMP_AVAILABLE, SNMP_ERROR, UPDATE_TIME, LAST_SYN_DEVICE_SCAN_TIME, SNMP_ERRORS_FROM, 
+    ALARM_TEMPLETE_ID, ICMP_AVAILABLE, ICMP_ITEM_ID, SYSUPTIME_AVAILABLE, SYSUPTIME_ITEMID, 
+    FQ, SNMP_AVAILABLESTR, ICMP_AVAILABLESTR, CHECK_TYPE, ICMP_CHANGE_ERROR_TIME, ICMP_LAST_CLOCK, 
+    SNMP_LAST_CLOCK, ITEMID_SYSDESCR, IPZY_ID2, SCAN_DETAIL_ID, SCAN_DETAIL_UPDATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SDTZ_TB_PORT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SDTZ_TB_PORT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.youotech.entity.PortModel" >
+    insert into SDTZ_TB_PORT (ID, NAME, DEVICE_ID, 
+      IP, MAC, TYPE, IPZY_ID, 
+      TJ_ID, ITEM_IDS, DEL, 
+      STAR, PM, SYN_TIME, SNMP_AVAILABLE, 
+      SNMP_ERROR, UPDATE_TIME, LAST_SYN_DEVICE_SCAN_TIME, 
+      SNMP_ERRORS_FROM, ALARM_TEMPLETE_ID, ICMP_AVAILABLE, 
+      ICMP_ITEM_ID, SYSUPTIME_AVAILABLE, SYSUPTIME_ITEMID, 
+      FQ, SNMP_AVAILABLESTR, ICMP_AVAILABLESTR, 
+      CHECK_TYPE, ICMP_CHANGE_ERROR_TIME, ICMP_LAST_CLOCK, 
+      SNMP_LAST_CLOCK, ITEMID_SYSDESCR, IPZY_ID2, 
+      SCAN_DETAIL_ID, SCAN_DETAIL_UPDATETIME)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{deviceId,jdbcType=DECIMAL}, 
+      #{ip,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, #{ipzyId,jdbcType=DECIMAL}, 
+      #{tjId,jdbcType=VARCHAR}, #{itemIds,jdbcType=VARCHAR}, #{del,jdbcType=DECIMAL}, 
+      #{star,jdbcType=DECIMAL}, #{pm,jdbcType=VARCHAR}, #{synTime,jdbcType=DATE}, #{snmpAvailable,jdbcType=DECIMAL}, 
+      #{snmpError,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE}, #{lastSynDeviceScanTime,jdbcType=DATE}, 
+      #{snmpErrorsFrom,jdbcType=DATE}, #{alarmTempleteId,jdbcType=DECIMAL}, #{icmpAvailable,jdbcType=DECIMAL}, 
+      #{icmpItemId,jdbcType=VARCHAR}, #{sysuptimeAvailable,jdbcType=DECIMAL}, #{sysuptimeItemid,jdbcType=VARCHAR}, 
+      #{fq,jdbcType=DECIMAL}, #{snmpAvailablestr,jdbcType=VARCHAR}, #{icmpAvailablestr,jdbcType=VARCHAR}, 
+      #{checkType,jdbcType=VARCHAR}, #{icmpChangeErrorTime,jdbcType=DATE}, #{icmpLastClock,jdbcType=DATE}, 
+      #{snmpLastClock,jdbcType=DATE}, #{itemidSysdescr,jdbcType=VARCHAR}, #{ipzyId2,jdbcType=DECIMAL}, 
+      #{scanDetailId,jdbcType=DECIMAL}, #{scanDetailUpdatetime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.youotech.entity.PortModel" >
+    insert into SDTZ_TB_PORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="deviceId != null" >
+        DEVICE_ID,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="mac != null" >
+        MAC,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="ipzyId != null" >
+        IPZY_ID,
+      </if>
+      <if test="tjId != null" >
+        TJ_ID,
+      </if>
+      <if test="itemIds != null" >
+        ITEM_IDS,
+      </if>
+      <if test="del != null" >
+        DEL,
+      </if>
+      <if test="star != null" >
+        STAR,
+      </if>
+      <if test="pm != null" >
+        PM,
+      </if>
+      <if test="synTime != null" >
+        SYN_TIME,
+      </if>
+      <if test="snmpAvailable != null" >
+        SNMP_AVAILABLE,
+      </if>
+      <if test="snmpError != null" >
+        SNMP_ERROR,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="lastSynDeviceScanTime != null" >
+        LAST_SYN_DEVICE_SCAN_TIME,
+      </if>
+      <if test="snmpErrorsFrom != null" >
+        SNMP_ERRORS_FROM,
+      </if>
+      <if test="alarmTempleteId != null" >
+        ALARM_TEMPLETE_ID,
+      </if>
+      <if test="icmpAvailable != null" >
+        ICMP_AVAILABLE,
+      </if>
+      <if test="icmpItemId != null" >
+        ICMP_ITEM_ID,
+      </if>
+      <if test="sysuptimeAvailable != null" >
+        SYSUPTIME_AVAILABLE,
+      </if>
+      <if test="sysuptimeItemid != null" >
+        SYSUPTIME_ITEMID,
+      </if>
+      <if test="fq != null" >
+        FQ,
+      </if>
+      <if test="snmpAvailablestr != null" >
+        SNMP_AVAILABLESTR,
+      </if>
+      <if test="icmpAvailablestr != null" >
+        ICMP_AVAILABLESTR,
+      </if>
+      <if test="checkType != null" >
+        CHECK_TYPE,
+      </if>
+      <if test="icmpChangeErrorTime != null" >
+        ICMP_CHANGE_ERROR_TIME,
+      </if>
+      <if test="icmpLastClock != null" >
+        ICMP_LAST_CLOCK,
+      </if>
+      <if test="snmpLastClock != null" >
+        SNMP_LAST_CLOCK,
+      </if>
+      <if test="itemidSysdescr != null" >
+        ITEMID_SYSDESCR,
+      </if>
+      <if test="ipzyId2 != null" >
+        IPZY_ID2,
+      </if>
+      <if test="scanDetailId != null" >
+        SCAN_DETAIL_ID,
+      </if>
+      <if test="scanDetailUpdatetime != null" >
+        SCAN_DETAIL_UPDATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="ipzyId != null" >
+        #{ipzyId,jdbcType=DECIMAL},
+      </if>
+      <if test="tjId != null" >
+        #{tjId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemIds != null" >
+        #{itemIds,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null" >
+        #{del,jdbcType=DECIMAL},
+      </if>
+      <if test="star != null" >
+        #{star,jdbcType=DECIMAL},
+      </if>
+      <if test="pm != null" >
+        #{pm,jdbcType=VARCHAR},
+      </if>
+      <if test="synTime != null" >
+        #{synTime,jdbcType=DATE},
+      </if>
+      <if test="snmpAvailable != null" >
+        #{snmpAvailable,jdbcType=DECIMAL},
+      </if>
+      <if test="snmpError != null" >
+        #{snmpError,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="lastSynDeviceScanTime != null" >
+        #{lastSynDeviceScanTime,jdbcType=DATE},
+      </if>
+      <if test="snmpErrorsFrom != null" >
+        #{snmpErrorsFrom,jdbcType=DATE},
+      </if>
+      <if test="alarmTempleteId != null" >
+        #{alarmTempleteId,jdbcType=DECIMAL},
+      </if>
+      <if test="icmpAvailable != null" >
+        #{icmpAvailable,jdbcType=DECIMAL},
+      </if>
+      <if test="icmpItemId != null" >
+        #{icmpItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="sysuptimeAvailable != null" >
+        #{sysuptimeAvailable,jdbcType=DECIMAL},
+      </if>
+      <if test="sysuptimeItemid != null" >
+        #{sysuptimeItemid,jdbcType=VARCHAR},
+      </if>
+      <if test="fq != null" >
+        #{fq,jdbcType=DECIMAL},
+      </if>
+      <if test="snmpAvailablestr != null" >
+        #{snmpAvailablestr,jdbcType=VARCHAR},
+      </if>
+      <if test="icmpAvailablestr != null" >
+        #{icmpAvailablestr,jdbcType=VARCHAR},
+      </if>
+      <if test="checkType != null" >
+        #{checkType,jdbcType=VARCHAR},
+      </if>
+      <if test="icmpChangeErrorTime != null" >
+        #{icmpChangeErrorTime,jdbcType=DATE},
+      </if>
+      <if test="icmpLastClock != null" >
+        #{icmpLastClock,jdbcType=DATE},
+      </if>
+      <if test="snmpLastClock != null" >
+        #{snmpLastClock,jdbcType=DATE},
+      </if>
+      <if test="itemidSysdescr != null" >
+        #{itemidSysdescr,jdbcType=VARCHAR},
+      </if>
+      <if test="ipzyId2 != null" >
+        #{ipzyId2,jdbcType=DECIMAL},
+      </if>
+      <if test="scanDetailId != null" >
+        #{scanDetailId,jdbcType=DECIMAL},
+      </if>
+      <if test="scanDetailUpdatetime != null" >
+        #{scanDetailUpdatetime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.youotech.entity.PortModel" >
+    update SDTZ_TB_PORT
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        DEVICE_ID = #{deviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        MAC = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="ipzyId != null" >
+        IPZY_ID = #{ipzyId,jdbcType=DECIMAL},
+      </if>
+      <if test="tjId != null" >
+        TJ_ID = #{tjId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemIds != null" >
+        ITEM_IDS = #{itemIds,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null" >
+        DEL = #{del,jdbcType=DECIMAL},
+      </if>
+      <if test="star != null" >
+        STAR = #{star,jdbcType=DECIMAL},
+      </if>
+      <if test="pm != null" >
+        PM = #{pm,jdbcType=VARCHAR},
+      </if>
+      <if test="synTime != null" >
+        SYN_TIME = #{synTime,jdbcType=DATE},
+      </if>
+      <if test="snmpAvailable != null" >
+        SNMP_AVAILABLE = #{snmpAvailable,jdbcType=DECIMAL},
+      </if>
+      <if test="snmpError != null" >
+        SNMP_ERROR = #{snmpError,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="lastSynDeviceScanTime != null" >
+        LAST_SYN_DEVICE_SCAN_TIME = #{lastSynDeviceScanTime,jdbcType=DATE},
+      </if>
+      <if test="snmpErrorsFrom != null" >
+        SNMP_ERRORS_FROM = #{snmpErrorsFrom,jdbcType=DATE},
+      </if>
+      <if test="alarmTempleteId != null" >
+        ALARM_TEMPLETE_ID = #{alarmTempleteId,jdbcType=DECIMAL},
+      </if>
+      <if test="icmpAvailable != null" >
+        ICMP_AVAILABLE = #{icmpAvailable,jdbcType=DECIMAL},
+      </if>
+      <if test="icmpItemId != null" >
+        ICMP_ITEM_ID = #{icmpItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="sysuptimeAvailable != null" >
+        SYSUPTIME_AVAILABLE = #{sysuptimeAvailable,jdbcType=DECIMAL},
+      </if>
+      <if test="sysuptimeItemid != null" >
+        SYSUPTIME_ITEMID = #{sysuptimeItemid,jdbcType=VARCHAR},
+      </if>
+      <if test="fq != null" >
+        FQ = #{fq,jdbcType=DECIMAL},
+      </if>
+      <if test="snmpAvailablestr != null" >
+        SNMP_AVAILABLESTR = #{snmpAvailablestr,jdbcType=VARCHAR},
+      </if>
+      <if test="icmpAvailablestr != null" >
+        ICMP_AVAILABLESTR = #{icmpAvailablestr,jdbcType=VARCHAR},
+      </if>
+      <if test="checkType != null" >
+        CHECK_TYPE = #{checkType,jdbcType=VARCHAR},
+      </if>
+      <if test="icmpChangeErrorTime != null" >
+        ICMP_CHANGE_ERROR_TIME = #{icmpChangeErrorTime,jdbcType=DATE},
+      </if>
+      <if test="icmpLastClock != null" >
+        ICMP_LAST_CLOCK = #{icmpLastClock,jdbcType=DATE},
+      </if>
+      <if test="snmpLastClock != null" >
+        SNMP_LAST_CLOCK = #{snmpLastClock,jdbcType=DATE},
+      </if>
+      <if test="itemidSysdescr != null" >
+        ITEMID_SYSDESCR = #{itemidSysdescr,jdbcType=VARCHAR},
+      </if>
+      <if test="ipzyId2 != null" >
+        IPZY_ID2 = #{ipzyId2,jdbcType=DECIMAL},
+      </if>
+      <if test="scanDetailId != null" >
+        SCAN_DETAIL_ID = #{scanDetailId,jdbcType=DECIMAL},
+      </if>
+      <if test="scanDetailUpdatetime != null" >
+        SCAN_DETAIL_UPDATETIME = #{scanDetailUpdatetime,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.youotech.entity.PortModel" >
+    update SDTZ_TB_PORT
+    set NAME = #{name,jdbcType=VARCHAR},
+      DEVICE_ID = #{deviceId,jdbcType=DECIMAL},
+      IP = #{ip,jdbcType=VARCHAR},
+      MAC = #{mac,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      IPZY_ID = #{ipzyId,jdbcType=DECIMAL},
+      TJ_ID = #{tjId,jdbcType=VARCHAR},
+      ITEM_IDS = #{itemIds,jdbcType=VARCHAR},
+      DEL = #{del,jdbcType=DECIMAL},
+      STAR = #{star,jdbcType=DECIMAL},
+      PM = #{pm,jdbcType=VARCHAR},
+      SYN_TIME = #{synTime,jdbcType=DATE},
+      SNMP_AVAILABLE = #{snmpAvailable,jdbcType=DECIMAL},
+      SNMP_ERROR = #{snmpError,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      LAST_SYN_DEVICE_SCAN_TIME = #{lastSynDeviceScanTime,jdbcType=DATE},
+      SNMP_ERRORS_FROM = #{snmpErrorsFrom,jdbcType=DATE},
+      ALARM_TEMPLETE_ID = #{alarmTempleteId,jdbcType=DECIMAL},
+      ICMP_AVAILABLE = #{icmpAvailable,jdbcType=DECIMAL},
+      ICMP_ITEM_ID = #{icmpItemId,jdbcType=VARCHAR},
+      SYSUPTIME_AVAILABLE = #{sysuptimeAvailable,jdbcType=DECIMAL},
+      SYSUPTIME_ITEMID = #{sysuptimeItemid,jdbcType=VARCHAR},
+      FQ = #{fq,jdbcType=DECIMAL},
+      SNMP_AVAILABLESTR = #{snmpAvailablestr,jdbcType=VARCHAR},
+      ICMP_AVAILABLESTR = #{icmpAvailablestr,jdbcType=VARCHAR},
+      CHECK_TYPE = #{checkType,jdbcType=VARCHAR},
+      ICMP_CHANGE_ERROR_TIME = #{icmpChangeErrorTime,jdbcType=DATE},
+      ICMP_LAST_CLOCK = #{icmpLastClock,jdbcType=DATE},
+      SNMP_LAST_CLOCK = #{snmpLastClock,jdbcType=DATE},
+      ITEMID_SYSDESCR = #{itemidSysdescr,jdbcType=VARCHAR},
+      IPZY_ID2 = #{ipzyId2,jdbcType=DECIMAL},
+      SCAN_DETAIL_ID = #{scanDetailId,jdbcType=DECIMAL},
+      SCAN_DETAIL_UPDATETIME = #{scanDetailUpdatetime,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <insert id="insertAll" parameterType="java.util.Map">
+		INSERT INTO SDTZ_TB_PORT (NAME,DEVICE_ID,IP,MAC,PM,STAR)
+		<foreach collection="queryMap.portList" item="item" separator="UNION ALL">
+			SELECT
+			#{item.name,jdbcType=VARCHAR},#{queryMap.deviceId,jdbcType=DECIMAL},#{item.ip,jdbcType=VARCHAR},#{item.mac,jdbcType=VARCHAR}
+			,#{item.pm,jdbcType=VARCHAR},#{item.star,jdbcType=DECIMAL}
+			FROM DUAL
+		</foreach>
+	</insert>
+  
+</mapper>

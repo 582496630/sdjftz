@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.DevicesAndRackModelMapper" >
+  <resultMap id="BaseResultMap" type="com.youotech.entity.DevicesAndRackModel" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DEVICE_ID" property="deviceId" jdbcType="DECIMAL" />
+    <result column="RACK_ID" property="rackId" jdbcType="DECIMAL" />
+    <result column="ON_HEIGHT" property="onHeight" jdbcType="DECIMAL" />
+    <result column="FRONT_REAR" property="frontRear" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <select id="getDevicesRack" resultType="com.youotech.entity.DevicesRackModel" parameterType="java.util.Map">
+	  SELECT * FROM SDTZ_TB_DEVICE_AND_RACK  
+  </select>
+  
+</mapper>

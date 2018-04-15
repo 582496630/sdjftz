@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.OperationLogMapper">
+
+	<insert id="insert" parameterType="com.youotech.entity.OperationLogInfo">
+		INSERT INTO SDTZ_SYS_LOG
+		VALUES(LOG_ID.NEXTVAL,
+		#{userId,jdbcType=DECIMAL},
+		#{userName,jdbcType=VARCHAR},
+		TO_DATE(#{logDate,jdbcType=DECIMAL},
+		'yyyy-mm-ddhh24:mi:ss'),
+		#{logCrud,jdbcType=VARCHAR},
+		#{logData,jdbcType=VARCHAR})
+	</insert>
+
+	<select id="selectAll" resultType="com.youotech.entity.OperationLogInfo" parameterType="java.util.Map">
+		SELECT
+		ID id,USER_ID
+		userId,USER_NAME userName,LOG_DATE logDate,LOG_CRUD
+		logCrud,LOG_DATA
+		logData
+		FROM SDTZ_SYS_LOG
+		where 1=1
+		<if test="map.startTime != null and map.startTime != ''">
+			AND
+			LOG_DATE &gt;= TO_DATE (
+			#{map.startTime,jdbcType=DECIMAL},
+			'yyyy-mm-dd hh24:mi:ss'
+			)
+		</if>
+		<if test="map.endTime != null and map.endTime != ''">
+			AND LOG_DATE
+			&lt;= TO_DATE (
+			#{map.endTime,jdbcType=DECIMAL},
+			'yyyy-mm-dd hh24:mi:ss'
+			)
+		</if>
+		ORDER BY ID DESC
+	</select>
+</mapper>

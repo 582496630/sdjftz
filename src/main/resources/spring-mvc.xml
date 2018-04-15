@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<!--SpringMVC的配置文件，包含网站跳转逻辑的控制，配置 -->
+	<context:component-scan base-package="com.youotech.web.controller"
+		use-default-filters="false">
+		<!--只扫描控制器。 -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+
+	<!-- springmvc 拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.youotech.aop.TimeFilter"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+<!-- 	
+	操作日志切面
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+	<bean id="logAopAction" class="com.youotech.filter.LogAopAction"/>
+     -->
+	<!-- Velocity视图解析器 默认视图 -->
+	<bean id="velocityViewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="viewNames" value="*.html" />
+		<property name="suffix" value="" />
+		<property name="requestContextAttribute" value="rc" />
+		<property name="order" value="0" />
+	</bean>
+
+	<bean id="velocityConfigurer"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="/WEB-INF/views/" />
+		<property name="velocityProperties">
+			<props>
+				<prop key="input.encoding">UTF-8</prop>
+				<prop key="output.encoding">UTF-8</prop>
+				<prop key="contentType">text/html;charset=UTF-8</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+	<!-- SpringMVC文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 解析request的编码 ，Default is ISO-8859-1 -->
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<!-- 设置上传文件最大20MB -->
+		<property name="maxUploadSize">
+			<value>20971520</value>
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+
+	<!--两个标准配置 -->
+	<!-- 将springmvc不能处理的请求交给tomcat -->
+	<mvc:default-servlet-handler />
+	<!-- 能支持springmvc更高级的一些功能，JSR303校验，快捷的ajax...映射动态请求 -->
+	<mvc:annotation-driven />
+
+</beans>

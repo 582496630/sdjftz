@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.RoleInfoMapper">
+
+	<delete id="deleteRoleResources" parameterType="java.lang.Integer">
+		DELETE FROM
+		SDTZ_ROLE_RESOURCES WHERE ROLE_ID = #{roleId,jdbcType=DECIMAL}
+	</delete>
+
+	<insert id="insertRoleResources" parameterType="java.util.List">
+		INSERT INTO SDTZ_ROLE_RESOURCES (ROLE_ID,RESOURCES_ID)
+		<foreach collection="list" item="item" separator="UNION ALL">
+			SELECT
+			#{item.roleId,jdbcType=DECIMAL},#{item.resourcesId,jdbcType=DECIMAL}
+			FROM DUAL
+		</foreach>
+	</insert>
+
+</mapper>

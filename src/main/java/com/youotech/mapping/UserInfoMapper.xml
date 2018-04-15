@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.UserInfoMapper">
+	<resultMap id="UserResultMap" type="com.youotech.entity.UserInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DEPID" property="depid" jdbcType="VARCHAR" />
+		<result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+		<result column="CTIME" property="cTime" jdbcType="DATE" />
+		<result column="MTIME" property="mTime" jdbcType="DATE" />
+		<result column="MISTAKENUM" property="mistakeNum" jdbcType="DECIMAL" />
+		<result column="STATE" property="state" jdbcType="DECIMAL" />
+		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+		<result column="ISMANAGER" property="ismanager" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap id="ResourcesResultMap" type="com.youotech.entity.Resources">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<!-- 验证用户登录信息 -->
+	<select id="selectByUserName" resultMap="UserResultMap">
+		SELECT *
+		FROM
+		SDTZ_SYS_USER
+		WHERE STATE=0 AND
+		USERNAME=#{userName,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 获取所有用户信息 -->
+	<select id="selectForPermissions" resultType="java.lang.String">
+		SELECT
+		T5.PERMISSION
+		FROM
+		SDTZ_SYS_USER T1 INNER JOIN SDTZ_SYS_USER_ROLE T2 ON
+		T1."ID" =
+		T2.USER_ID
+		INNER JOIN SDTZ_SYS_ROLE T3 ON T2.ROLE_ID = T3.ID
+		INNER JOIN
+		SDTZ_ROLE_RESOURCES T4 ON T3.ID = T4.ROLE_ID
+		INNER JOIN
+		SDTZ_SYS_RESOURCES T5 ON T4.RESOURCES_ID = T5.ID
+		WHERE T1.USERNAME =
+		#{userName,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 获取所有用户权限信息 -->
+	<select id="selectForResources" resultMap="ResourcesResultMap">
+		SELECT T4.*
+		FROM
+		SDTZ_SYS_USER_ROLE T1 INNER JOIN SDTZ_SYS_ROLE T2 ON T1.ROLE_ID =
+		T2.ID
+		INNER JOIN SDTZ_ROLE_RESOURCES T3 ON T2.ID = T3.ROLE_ID
+		INNER JOIN
+		SDTZ_SYS_RESOURCES T4 ON T3.RESOURCES_ID = T4.ID
+		WHERE T1.USER_ID =
+		#{id,jdbcType=DECIMAL}
+		ORDER BY T4.SORT ASC
+	</select>
+
+
+	<select id="selectAllWithRole" resultType="com.youotech.entity.dto.UserInfoDTO">
+		SELECT T1.ID
+		userId,T1.USERNAME userName,T3.ID roleId,T3.ROLENAME
+		roleName
+		FROM
+		SDTZ_SYS_USER T1 LEFT JOIN
+		SDTZ_SYS_USER_ROLE T2 ON T1.ID =
+		T2.USER_ID
+		LEFT JOIN SDTZ_SYS_ROLE T3
+		ON T2.ROLE_ID = T3.ID
+	</select>
+
+	<select id="selectUserByDown" resultType="com.youotech.entity.UserInfo"
+		parameterType="java.lang.Integer">
+		SELECT T1.USERNAME userName
+		FROM SDTZ_SYS_USER T1 INNER JOIN
+		SDTZ_SYS_USER_ROLE T2 ON
+		T1.ID =
+		T2.USER_ID
+		WHERE 1=1
+		<if test="_parameter == 1213">
+			AND T2.ROLE_ID = 12 OR T2.ROLE_ID = 13
+		</if>
+		<if test="_parameter != 1213">
+			AND T2.ROLE_ID = #{roleId,jdbcType=DECIMAL}
+		</if>
+
+	</select>
+
+	<update id="updateUserInfo" parameterType="com.youotech.entity.UserInfo">
+		update SDTZ_SYS_USER
+		set USERNAME = #{userName,jdbcType=VARCHAR},
+		<if test="password !=null and password !=''">
+			PASSWORD =
+			#{password,jdbcType=VARCHAR},
+		</if>
+		DEPID = #{depid,jdbcType=DECIMAL},
+		MTIME =
+		#{mTime,jdbcType=DATE}
+		where
+		ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<update id="updateForUserRole" parameterType="java.util.Map">
+		update
+		SDTZ_SYS_USER_ROLE
+		set ROLE_ID = #{map.roleId,jdbcType=DECIMAL},
+		where
+		USER_ID = #{map.id,jdbcType=DECIMAL}
+	</update>
+
+	<insert id="insertForUserRole" parameterType="java.util.Map">
+		INSERT INTO
+		SDTZ_SYS_USER_ROLE(USER_ID,ROLE_ID)
+		VALUES(#{map.id,jdbcType=DECIMAL},#{map.roleId,jdbcType=DECIMAL})
+	</insert>
+
+
+	<select id="selectUserRoleByUser" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select count(1)
+		from SDTZ_SYS_USER_ROLE
+		where USER_ID =
+		#{userId,jdbcType=DECIMAL}
+	</select>
+
+
+	<delete id="delUserRoleByUserId" parameterType="java.lang.Integer">
+		delete from
+		SDTZ_SYS_USER_ROLE where USER_ID = #{userId,jdbcType=DECIMAL}
+	</delete>
+
+	<select id="selectRoleByUser" resultType="com.youotech.entity.RoleInfo"
+		parameterType="java.lang.Integer">
+		SELECT T2.ID id,T2.ROLENAME rolename
+		FROM
+		SDTZ_SYS_USER_ROLE T1 INNER JOIN SDTZ_SYS_ROLE T2 ON T1.ROLE_ID =
+		T2.ID
+		WHERE T1.USER_ID = #{userId,jdbcType=DECIMAL}
+	</select>
+</mapper>

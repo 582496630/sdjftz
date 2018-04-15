@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.DeviceModelMapper">
+	<resultMap id="BaseResultMap" type="com.youotech.entity.DeviceModel">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="FQ" property="fq" jdbcType="DECIMAL" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="TYPESET_ID" property="typesetId" jdbcType="DECIMAL" />
+		<result column="SBZRR_NAME" property="sbzrrName" jdbcType="VARCHAR" />
+		<result column="SBWHR_NAME" property="sbwhrName" jdbcType="VARCHAR" />
+		<result column="SBXH" property="sbxh" jdbcType="VARCHAR" />
+		<result column="XLH" property="xlh" jdbcType="VARCHAR" />
+		<result column="PG_ID" property="pgId" jdbcType="DECIMAL" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="FAC_ID" property="facId" jdbcType="DECIMAL" />
+		<result column="TOPOLOGY_ID" property="topologyId" jdbcType="DECIMAL" />
+		<result column="SYSTEM_ID" property="systemId" jdbcType="DECIMAL" />
+		<result column="IP" property="ip" jdbcType="VARCHAR" />
+		<result column="DEL" property="del" jdbcType="DECIMAL" />
+		<result column="FQ1" property="fq1" jdbcType="DECIMAL" />
+		<result column="FQ2" property="fq2" jdbcType="DECIMAL" />
+		<result column="FQ3" property="fq3" jdbcType="DECIMAL" />
+		<result column="FQ4" property="fq4" jdbcType="DECIMAL" />
+		<result column="YWDJ" property="ywdj" jdbcType="VARCHAR" />
+		<result column="SNMP_VERSION" property="snmpVersion" jdbcType="DECIMAL" />
+		<result column="SNMP_READ" property="snmpRead" jdbcType="VARCHAR" />
+		<result column="SNMP_WRITE" property="snmpWrite" jdbcType="VARCHAR" />
+		<result column="SNMP_USERNAME" property="snmpUsername"
+			jdbcType="VARCHAR" />
+		<result column="SNMP_PASSWORD" property="snmpPassword"
+			jdbcType="VARCHAR" />
+		<result column="SNMP_SECURITYLEVEL" property="snmpSecuritylevel"
+			jdbcType="DECIMAL" />
+		<result column="ITEM_IDS" property="itemIds" jdbcType="VARCHAR" />
+		<result column="MAC_ADDRESS" property="macAddress" jdbcType="VARCHAR" />
+		<result column="SNMP_PORT" property="snmpPort" jdbcType="VARCHAR" />
+		<result column="UPDATA_TIME" property="updataTime" jdbcType="DATE" />
+		<result column="NETWORK_STATUS" property="networkStatus"
+			jdbcType="VARCHAR" />
+		<result column="HOST_SYNTIME" property="hostSyntime" jdbcType="DATE" />
+		<result column="MAIN_PORT" property="mainPort" jdbcType="DECIMAL" />
+		<result column="SCAN_DETAILD" property="scanDetaild" jdbcType="VARCHAR" />
+		<result column="BJSB" property="bjsb" jdbcType="DECIMAL" />
+		<result column="SCCJ" property="sccj" jdbcType="VARCHAR" />
+		<result column="SCFJ" property="SCFJ" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, FQ, NAME, TYPESET_ID, SBZRR_NAME, SBWHR_NAME, SBXH,
+		XLH, PG_ID,
+		REMARK, FAC_ID,
+		TOPOLOGY_ID, SYSTEM_ID, IP, DEL, FQ1, FQ2,
+		FQ3, FQ4, YWDJ, SNMP_VERSION,
+		SNMP_READ,
+		SNMP_WRITE, SNMP_USERNAME,
+		SNMP_PASSWORD, SNMP_SECURITYLEVEL, ITEM_IDS,
+		MAC_ADDRESS,
+		SNMP_PORT,
+		UPDATA_TIME, NETWORK_STATUS, HOST_SYNTIME, MAIN_PORT, SCAN_DETAILD,
+		BJSB,SCCJ,SCFJ
+	</sql>
+	<select id="getMenuList" resultType="com.youotech.entity.dto.TypeDTO">
+		SELECT DEV.TYPESET_ID
+		typesetId,TYP.NAME typesetName,DEV.SYSTEM_ID systemId,SYS.NAME
+		systemName
+		FROM
+		(SELECT TYPESET_ID,SYSTEM_ID
+		FROM SDTZ_TB_DEVICE
+		WHERE DEL = 1
+		GROUP BY TYPESET_ID,SYSTEM_ID) DEV,SDTZ_TB_TYPESET TYP,SDTZ_TB_SYSTEM SYS
+		WHERE DEV.TYPESET_ID = TYP.ID
+		AND DEV.SYSTEM_ID = SYS.ID
+	</select>
+
+	<select id="getLedgerTable" resultType="com.youotech.entity.dto.DeviceModelDTO"
+		parameterType="java.util.Map">
+		SELECT
+		DEV.ID id, DEV.FQ fq, DEV.NAME name, DEV.TYPESET_ID typesetId,TYPE.NAME
+		typesetName,TYPE.IMG_SRC typesetIcon,DEV.SBZRR_NAME sbzrrName,
+		DEV.SBWHR_NAME sbwhrName,DEV.SCCJ sccj,CJ.NAME sccjName, DEV.SBXH
+		sbxh, DEV.XLH xlh, DEV.PG_ID pgId,
+		DEV.REMARK remark, DEV.FAC_ID facId,FAC.NAME facName,
+		DEV.TOPOLOGY_ID topologyId, DEV.SYSTEM_ID systemId,SYS.NAME systemName, DEV.IP ip,
+		DEV.DEL del, DEV.YWDJ
+		ywdj
+
+		FROM
+		SDTZ_TB_DEVICE DEV,SDTZ_TB_TYPESET TYPE,SDTZ_TB_SYSTEM
+		SYS,SDTZ_TB_STATION FAC,SDTZ_TB_CJ CJ
+		WHERE DEV.TYPESET_ID = TYPE.ID
+		AND DEV.SYSTEM_ID = SYS.ID AND DEV.FAC_ID = FAC.ID AND DEV.SCCJ =
+		CJ.ID
+		<if test="queryMap.fq != null and queryMap.fq != '' and queryMap.fq != 0">
+			AND DEV.FQ = #{queryMap.fq,jdbcType=DECIMAL},
+		</if>
+		<if test="queryMap.name != null and queryMap.name != ''">
+			AND DEV.NAME = #{queryMap.name,jdbcType=VARCHAR},
+		</if>
+		AND DEV.DEL=1
+		ORDER BY DEV.ID DESC
+	</select>
+	
+	<select id="getAllDevice" resultType="com.youotech.entity.DeviceModel">
+		SELECT * FROM SDTZ_TB_DEVICE
+	</select>
+
+	<insert id="insertInfo" parameterType="com.youotech.entity.DeviceModel">
+		<selectKey resultType="java.lang.Long" order="AFTER"
+			keyProperty="id">
+			SELECT TB_DEVICE_ID.CURRVAL AS id FROM DUAL
+		</selectKey>
+		INSERT INTO SDTZ_TB_DEVICE(FQ,NAME,TYPESET_ID, SBZRR_NAME, SBWHR_NAME,
+		SBXH,
+		XLH, PG_ID, REMARK, FAC_ID,
+		SYSTEM_ID,DEL,SNMP_READ,SNMP_PORT,YWDJ,SCCJ,SCFJ)
+		VALUES(
+		#{fq,jdbcType=DECIMAL},#{name,jdbcType=VARCHAR},#{typesetId,jdbcType=DECIMAL}
+		,#{sbzrrName,jdbcType=VARCHAR},#{sbwhrName,jdbcType=VARCHAR},#{sbxh,jdbcType=VARCHAR}
+		,#{xlh,jdbcType=VARCHAR},#{pgId,jdbcType=DECIMAL},#{remark,jdbcType=VARCHAR}
+		,#{facId,jdbcType=DECIMAL},#{systemId,jdbcType=DECIMAL},#{del,jdbcType=DECIMAL},#{snmpRead,jdbcType=VARCHAR}
+		,#{snmpPort,jdbcType=VARCHAR},#{ywdj,jdbcType=VARCHAR},#{sccj,jdbcType=VARCHAR},#{scfj,jdbcType=VARCHAR}
+		)
+	</insert>
+
+</mapper>

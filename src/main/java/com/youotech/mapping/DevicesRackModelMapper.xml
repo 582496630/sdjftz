@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.DevicesRackModelMapper" >
+  <resultMap id="BaseResultMap" type="com.youotech.entity.DevicesRackModel" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATION_ID" property="stationId" jdbcType="DECIMAL" />
+    <result column="FQ" property="fq" jdbcType="DECIMAL" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="HIGHT" property="hight" jdbcType="VARCHAR" />
+    <result column="ROOM_ID" property="roomId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="DATE" />
+  </resultMap>
+  
+  <select id="getDevicesRack" resultType="com.youotech.entity.DevicesRackModel" parameterType="java.util.Map">
+	  SELECT * FROM SDTZ_TB_DEVICE_RACK  
+	  <where>
+		  	<if test="map.name != null and map.name != ''">
+		  		NAME = %#{map.name,jdbcType=VARCHAR} 
+		  	</if>
+		  	<if test="map.code != null and map.code != ''">
+		  		AND CODE = #{map.code,jdbcType=VARCHAR}
+		  	</if>
+		  	<if test="map.fq != null and map.fq != 0">
+		  		AND FQ = #{map.fq}
+		  	</if>
+		  	<if test="map.roomId != null">
+		  		AND ROOM_ID = #{map.roomId}
+		  	</if>
+	  	</where>
+	  	ORDER BY MODIFY_TIME DESC
+  </select>
+  
+  
+  <select id="getDeviceRackLeftTreeInfo" resultType="com.youotech.entity.dto.TypeDTO">
+  	SELECT T.NAME typesetName,
+  		T.IMG_SRC typesetImgSrc,
+  		TBD.FQ deviceFQ,
+  		TBD.TYPESET_ID typesetId
+  	FROM SDTZ_TB_TYPESET T 
+  	LEFT JOIN (
+			SELECT TYPESET_ID,d.FQ  FROM SDTZ_TB_DEVICE d GROUP BY d.TYPESET_ID,d.FQ
+			) TBD on TBD.TYPESET_ID = T."ID"
+  
+  </select>
+  
+</mapper>

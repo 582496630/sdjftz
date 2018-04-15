@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youotech.dao.ResourcesInfoMapper">
+
+
+	<select id="selectRRByRole" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT RESOURCES_ID FROM SDTZ_ROLE_RESOURCES WHERE ROLE_ID
+		= #{id,jdbcType=DECIMAL}
+	</select>
+
+</mapper>
